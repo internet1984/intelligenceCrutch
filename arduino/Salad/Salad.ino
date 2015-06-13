@@ -8,7 +8,7 @@
 #define Button_PIN          8
 #define ULTRASONIC1_PIN    A0
 #define ULTRASONIC2_PIN    A1
-#define DISTANCE  350
+#define DISTANCE  100
 #define RxD 2
 #define TxD 3
 
@@ -42,7 +42,7 @@ void loop()
         ultrasonicAirDistance1 = ultrasonicAir1.MeasureInCentimeters();
 	ultrasonicAirDistance2 = ultrasonicAir2.MeasureInCentimeters();	
         button=digitalRead(Button_PIN);
-         if(button==HIGH )  {BLE.print(3);}
+         if(button==HIGH )  {BLE.print(3); Serial.println("click");}
          while (BLE.available()){//check if there's any data sent from the remote BLE 
           recvChar = BLE.read();
           if (recvChar ==49) { BuzzLeft();BuzzLeft();}
@@ -56,8 +56,12 @@ void loop()
       recvChar  = Serial.read();    
       BLE.print(recvChar); 
     }
+      Serial.print("ultra1:");
+      Serial.print(ultrasonicAirDistance1);
+      Serial.print(" ultra2:");
+      Serial.println(ultrasonicAirDistance2);
                 
-	if(ultrasonicAirDistance1<DISTANCE||ultrasonicAirDistance2<DISTANCE) {int ultrasonicAirDistance=(ultrasonicAirDistance1+ultrasonicAirDistance2);Buzz(ultrasonicAirDistance);}
+	if(ultrasonicAirDistance1<DISTANCE||ultrasonicAirDistance2<DISTANCE) {int ultrasonicAirDistance=(ultrasonicAirDistance1+ultrasonicAirDistance2);Buzz(ultrasonicAirDistance); Serial.println("stop");}
         delay(5); 
         
 }
